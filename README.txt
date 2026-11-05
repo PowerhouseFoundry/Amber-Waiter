@@ -7,3 +7,5 @@ Open index.html in Chrome. No internet or installation required.
 ALL TABLES: original four-column view with staggered tickets about 10 seconds apart.
 
 The supplied Nando's logo is restored. Local educational simulation; no real ordering or payments.
+
+LOGO FIX: Uses a newly named logo asset to avoid Chrome reusing the previously incorrect cached spray bottle image. Open this folder index.html.

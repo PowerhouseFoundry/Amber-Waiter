@@ -5,12 +5,12 @@ const LEVELS={
   3:['drinks','clear'], 4:['drinks','clear','clean'],
   5:['drinks','plates','clear'], 6:['drinks','plates','clear','clean']
 };
-const FIRST_DELAY=2000, ORDER_INTERVAL=10000, FOLLOW_UP_DELAY=20000, SINGLE_FOLLOW_UP_DELAY=10000;
+const FIRST_DELAY=2000, ORDER_INTERVAL=10000, FOLLOW_UP_DELAY=20000, SINGLE_NEXT_DELAY=2000;
 const board=document.getElementById('board'), levelSelect=document.getElementById('level');
 const clock=document.getElementById('sessionClock'), summary=document.getElementById('summary');
 const oneBtn=document.getElementById('oneMode'), allBtn=document.getElementById('allMode');
 let mode='one',level=1,sessionStart=0,elapsedAtStop=0,stopped=false;
-let tables=[],activeOne=null,lastTable=-1,lastDispatch=0,started=false;
+let tables=[],activeOne=null,lastTable=-1,lastDispatch=0,nextSingleAt=0,started=false;
 let totals={},clockHandle=null,dispatcher=null,renderedTicket=new Map();
 function freshTotals(){return {glasses:0,plates:0,drinksTables:0,foodTables:0,cleared:0,cleaned:0,orders:0};}
 function newTable(id){return {id,stage:0,drinks:0,plates:0,readyAt:0,ticket:null,completed:0};}
@@ -28,7 +28,7 @@ function countText(table,type){if(type==='drinks')return `${table.drinks} ${tabl
  if(type==='plates')return `${table.plates} ${table.plates===1?'PLATE':'PLATES'}`;
  return type==='clear'?'CLEAR':'CLEAN';}
 function reset(){clearInterval(clockHandle);clearInterval(dispatcher);level=Number(levelSelect.value);tables=Array.from({length:4},(_,i)=>newTable(i));
- totals=freshTotals();stopped=false;started=false;activeOne=null;lastTable=-1;sessionStart=Date.now();lastDispatch=sessionStart;renderedTicket.clear();
+ totals=freshTotals();stopped=false;started=false;activeOne=null;lastTable=-1;sessionStart=Date.now();lastDispatch=sessionStart;nextSingleAt=sessionStart+FIRST_DELAY;renderedTicket.clear();
  summary.hidden=true;clock.textContent='00:00';board.className='board '+mode;
  updateButtons();renderBoard();
  clockHandle=setInterval(tick,250);dispatcher=setInterval(dispatch,200);
@@ -57,13 +57,20 @@ function showTicket(table,now){const type=currentStage(table);if(!type||table.ti
 function eligible(now){return tables.filter(t=>!t.ticket&&t.readyAt>0&&t.readyAt<=now);}
 function dispatch(){if(stopped)return;const now=Date.now();if(now-sessionStart<FIRST_DELAY)return;
  if(mode==='one'){
-  if(activeOne!=null){const t=tables[activeOne];if(!t.ticket&&t.readyAt>0&&t.readyAt<=now&&now-lastDispatch>=ORDER_INTERVAL)showTicket(t,now);return;}
-  if(now-lastDispatch<ORDER_INTERVAL&&started)return;
-  let picks=tables.filter(t=>t.readyAt===0||t.readyAt<=now);
+  // Only one visible ticket, but FOUR independent table service histories.
+  // When the learner taps the picture, choose the next task after 2 seconds.
+  if(activeOne!==null || now<nextSingleAt)return;
+  // Candidate tickets include ready follow-up work AND new orders on idle tables.
+  // An unfinished table never loses its stage, quantities or previous service.
+  let picks=tables.filter(t=>!t.ticket && (t.readyAt===0 || t.readyAt<=now));
   if(!picks.length)return;
-  // Prefer a different table for each new service cycle.
-  const other=picks.filter(t=>t.id!==lastTable);if(other.length)picks=other;
-  const table=choice(picks);newCounts(table);table.readyAt=now;showTicket(table,now);return;
+  // Prefer a different table where possible, but never force numerical ordering.
+  const others=picks.filter(t=>t.id!==lastTable);
+  if(others.length)picks=others;
+  const table=choice(picks);
+  if(table.readyAt===0){newCounts(table);table.readyAt=now;}
+  showTicket(table,now);
+  return;
  }
  // All Tables: at most one ticket enters the board per 10 seconds.
  if(started&&now-lastDispatch<ORDER_INTERVAL)return;
@@ -85,9 +92,12 @@ function complete(id){if(stopped)return;const table=tables[id];if(!table||!table
  if(type==='clean')totals.cleaned++;
  table.stage++;
  if(table.stage>=LEVELS[level].length){totals.orders++;table.completed++;table.stage=0;table.readyAt=0;
-  // In one-table mode, release the view only after its full sequence is finished.
-  if(mode==='one')activeOne=null;
- }else{table.readyAt=now+(mode==='one'?SINGLE_FOLLOW_UP_DELAY:FOLLOW_UP_DELAY);}
+ }else{table.readyAt=now+(mode==='one'?SINGLE_NEXT_DELAY:FOLLOW_UP_DELAY);}
+ if(mode==='one'){
+  // Free the screen immediately, retaining the finished stage of this table.
+  activeOne=null;
+  nextSingleAt=now+SINGLE_NEXT_DELAY;
+ }
  renderBoard();}
 function updateTicketAge(table,now){if(!table.ticket)return;const ui=renderedTicket.get(table.id);if(!ui||ui.ticket!==table.ticket)return;
  const elapsed=now-table.ticket.at;ui.time.textContent=stamp(elapsed);const cls=elapsed>=60000?'overdue':elapsed>=40000?'red':elapsed>=20000?'amber':'';

@@ -1,23 +1,9 @@
-NANDO'S-STYLE TABLE SERVICE TRAINING (CLASSROOM SIMULATION)
+Nando's table service training – single-task mode update.
 
-Open index.html in Chrome, Safari, Edge or Firefox. No server or account needed.
+Open index.html in Chrome. No internet or installation required.
 
-TOGGLE
-1 TABLE: One large table on-screen at a time. Finish that table's complete sequence before moving to the next table. The next table is random, with an effort to avoid repeating the previous one. New tasks are introduced after short pauses.
-ALL TABLES: Four side-by-side tables (2x2 on small phones). New orders and follow-up tasks are staggered at roughly 10 second intervals, not all at once. Tables chosen randomly among available tables.
+1 TABLE: all four tables maintain separate task stages and quantities. Exactly one task is displayed at once. After tapping it, the next task appears about 2 seconds later, choosing randomly from all eligible table tasks. A CLEAR or CLEAN symbol appears only after that table has completed its previous service task(s).
 
-LEVELS
-1 Plates / Clear
-2 Plates / Clear / Clean
-3 Drinks / Clear
-4 Drinks / Clear / Clean
-5 Drinks / Plates / Clear
-6 Drinks / Plates / Clear / Clean
+ALL TABLES: original four-column view with staggered tickets about 10 seconds apart.
 
-Click the large picture to mark the task complete. A picture NEVER flashes. Only the narrow status strip above it gently pulses when overdue.
-Green 0-19 seconds, amber 20-39 seconds, red 40-59 seconds, pulsing red from 60 seconds onward.
-
-STOP shows counts of glasses, drinks tables, plates, food tables, clearing, cleaning, and full orders as relevant.
-Changing the level or view starts a new session (confirmation shown after work has begun). No account or online database is used.
-
-TRAINING ONLY. Nando's name/logo used in this internal educational simulation, not an official Nando's product.
+The supplied Nando's logo is restored. Local educational simulation; no real ordering or payments.

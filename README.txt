@@ -1,37 +1,23 @@
-NANDO’S TABLE ORDERS — SIX-LEVEL OFFLINE TRAINING APP
+NANDO'S-STYLE TABLE SERVICE TRAINING (CLASSROOM SIMULATION)
 
-OPEN: Double-click index.html. Keep the assets folder alongside it.
-No hosting or internet connection required.
+Open index.html in Chrome, Safari, Edge or Firefox. No server or account needed.
+
+TOGGLE
+1 TABLE: One large table on-screen at a time. Finish that table's complete sequence before moving to the next table. The next table is random, with an effort to avoid repeating the previous one. New tasks are introduced after short pauses.
+ALL TABLES: Four side-by-side tables (2x2 on small phones). New orders and follow-up tasks are staggered at roughly 10 second intervals, not all at once. Tables chosen randomly among available tables.
 
 LEVELS
-1  Plates → Clear
-2  Plates → Clear → Clean
-3  Drinks → Clear
-4  Drinks → Clear → Clean
-5  Drinks → Plates → Clear
-6  Drinks → Plates → Clear → Clean
+1 Plates / Clear
+2 Plates / Clear / Clean
+3 Drinks / Clear
+4 Drinks / Clear / Clean
+5 Drinks / Plates / Clear
+6 Drinks / Plates / Clear / Clean
 
-SESSION BEHAVIOUR
-- Starts with four empty table columns.
-- First ticket appears after about 2 seconds.
-- New ticket comes through roughly every 10 seconds, when a table is ready.
-- A random eligible table is selected; table order varies from session to session.
-- Only one task per table is visible at a time. Click the large picture to complete it.
-- Each table pauses briefly before the next stage becomes eligible.
-- After the final stage a new order can appear for the same table, continuously.
-- Only the coloured ticket header flashes when overdue, never the picture.
-- STOP displays a level-appropriate session summary.
-- The session saves locally in browser storage and can resume on the same browser.
-- Changing levels resets the session after confirmation.
+Click the large picture to mark the task complete. A picture NEVER flashes. Only the narrow status strip above it gently pulses when overdue.
+Green 0-19 seconds, amber 20-39 seconds, red 40-59 seconds, pulsing red from 60 seconds onward.
 
-COLOUR TIMINGS
-0–19 seconds green; 20–39 amber; 40–59 red; 60+ pulsing red HEADER only.
+STOP shows counts of glasses, drinks tables, plates, food tables, clearing, cleaning, and full orders as relevant.
+Changing the level or view starts a new session (confirmation shown after work has begun). No account or online database is used.
 
-ASSETS
-Supplied Nando’s logo (internal training mock-up only), original plate and glass art,
-revised tray clearing symbol, and new label-free pink sanitiser spray + blue cloth.
-
-CLEAR ARTWORK BY LEVEL
-Levels 1 and 2: assets/clear-plates.png (hand lifting one plate).
-Levels 3 and 4: assets/clear.png (glass to tray).
-Levels 5 and 6: assets/clear-combined.png (plates by hand, glasses on tray).
+TRAINING ONLY. Nando's name/logo used in this internal educational simulation, not an official Nando's product.
